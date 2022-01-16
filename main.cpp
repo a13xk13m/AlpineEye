@@ -9,6 +9,7 @@ int main()
 {
     std::string image_path = samples::findFile("Mt_Washington1.png");
     Mat img = ImageProc::openImage(image_path);
+    img = ImageProc::toBW(img, 128);
     imshow("Display window", img);
     int k = waitKey(0); 
     return 0;

@@ -2,6 +2,7 @@
 #include "ImageProcessing.h"
 #include <opencv2/core/utility.hpp>
 #include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 cv::Mat ImageProc::openImage(std::string path)
 {
@@ -30,3 +31,11 @@ cv::Mat ImageProc::stripChannel(char channel, cv::Mat& img) {
     return img;
 }
 
+cv::Mat ImageProc::toBW(cv::Mat& img, std::size_t threshold) {
+    // Convert to grayscale
+    cv::Mat im_gray;
+    cv::cvtColor(img, im_gray, cv::ColorConversionCodes::COLOR_RGB2GRAY);
+    // Convert to b and w with the given threshold.
+    cv::Mat img_bw = im_gray > threshold;
+    return img_bw;
+}

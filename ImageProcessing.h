@@ -20,7 +20,7 @@ namespace ImageProc {
 	// Converts and image matrix to black and white.
 	// - Image
 	// - Image
-	cv::Mat toBW(cv::Mat& img);
+	cv::Mat toBW(cv::Mat& img, std::size_t threshold);
 
 	// Processes an image and returns the final, fully processed, version.
 	// - Image
