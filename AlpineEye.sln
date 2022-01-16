@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlpineEye", "AlpineEye.vcxproj", "{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Debug|x64.ActiveCfg = Debug|x64
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Debug|x64.Build.0 = Debug|x64
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Debug|x86.ActiveCfg = Debug|Win32
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Debug|x86.Build.0 = Debug|Win32
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Release|x64.ActiveCfg = Release|x64
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Release|x64.Build.0 = Release|x64
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Release|x86.ActiveCfg = Release|Win32
+		{060780E5-17B3-41F5-A98D-1FFBC4BFCE9E}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {273CE2E9-E2D8-4F20-9FE0-1FDC57A4F47E}
+	EndGlobalSection
+EndGlobal
