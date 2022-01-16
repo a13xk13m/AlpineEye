@@ -9,7 +9,10 @@ int main()
 {
     std::string image_path = samples::findFile("Mt_Washington1.png");
     Mat img = ImageProc::openImage(image_path);
-    img = ImageProc::toBW(img, 128);
+    img = ImageProc::crop(img, 4500, 2000, 2000, 2000);
+    //img = ImageProc::stripChannel(img, 'r');
+    // Orange for topo lines are r: 166, g: 116, b: 66
+    img = ImageProc::boostColor(img, 66, 116, 166, 40);
     imshow("Display window", img);
     int k = waitKey(0); 
     return 0;

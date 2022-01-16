@@ -10,7 +10,7 @@ cv::Mat ImageProc::openImage(std::string path)
     return img;
 }
 
-cv::Mat ImageProc::stripChannel(char channel, cv::Mat& img) {
+cv::Mat ImageProc::stripChannel(cv::Mat& img, char channel) {
     cv::Mat targetChannel;
     std::size_t ch;
     if (channel == 'b') {
@@ -38,4 +38,15 @@ cv::Mat ImageProc::toBW(cv::Mat& img, std::size_t threshold) {
     // Convert to b and w with the given threshold.
     cv::Mat img_bw = im_gray > threshold;
     return img_bw;
+}
+
+cv::Mat ImageProc::crop(cv::Mat& img, std::size_t x, std::size_t y, std::size_t width, std::size_t height) {
+    return img(cv::Range(y, y + height), cv::Range(x, x + width)); // Slicing to crop the image
+
+}
+
+cv::Mat ImageProc::boostColor(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius) {
+    cv::Mat filteredImg;
+    cv::inRange(img, cv::Scalar(blue - radius, green - radius, red - radius), cv::Scalar(blue + radius, green + radius, red + radius), filteredImg);
+    return filteredImg;
 }
