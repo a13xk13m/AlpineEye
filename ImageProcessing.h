@@ -13,11 +13,17 @@ namespace ImageProc {
 
 	// Strips a color channel (RGB) from the image. Used to remove green areas, etc.
 	// Input - channel, image
+	// Channel can be b, g, r
 	// Output - Image
-	cv::Mat stripChannel(char channel, cv::Mat img);
+	cv::Mat stripChannel(char channel, cv::Mat& img);
 
 	// Converts and image matrix to black and white.
 	// - Image
 	// - Image
-	cv::Mat toBW(cv::Mat img);
+	cv::Mat toBW(cv::Mat& img);
+
+	// Processes an image and returns the final, fully processed, version.
+	// - Image
+	// - Image
+	cv::Mat process(cv::Mat& img);
 }
