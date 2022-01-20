@@ -33,6 +33,16 @@ namespace ImageProc {
 	// - Image
 	cv::Mat boostColor(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius);
 
+	// Inveres an image with cv::bitwise_not
+	// - Image
+	// - Image
+	cv::Mat inverse(cv::Mat& img);
+	
+	// Denoises a binary image by removing free floating 1s that don't have neighbors.
+	// - Image, % of 255 neighbors before a pixels is set to 255, number of passes to denoise.
+	// - Image
+	cv::Mat denoise(cv::Mat& img, double threshold, std::size_t passes);
+
 	// Processes an image and returns the final, fully processed, version.
 	// - Image
 	// - Image
