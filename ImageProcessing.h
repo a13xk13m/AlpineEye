@@ -38,6 +38,11 @@ namespace ImageProc {
 	// - Image, % of 255 neighbors before a pixels is set to 255, number of passes to denoise.
 	void denoise(cv::Mat& img, double threshold, std::size_t passes);
 
+	// Segments an image by adaptive thresholding as described in 
+	// https://ieeexplore.ieee.org/document/5692626
+	// - Image
+	void adaptiveThresholding(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius);
+
 	// Processes an image and returns the final, fully processed, version.
 	// - Image
 	cv::Mat process(cv::Mat& img);

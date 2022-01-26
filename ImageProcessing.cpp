@@ -87,3 +87,34 @@ void ImageProc::denoise(cv::Mat& img, double threshold, std::size_t passes)  {
         }
     }
 }
+
+void ImageProc::adaptiveThresholding(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius) {
+        for (int r = 0; r < img.rows; r++) {
+            for (int c = 0; c < img.cols; c++) {
+                    int count = 0;
+                    double means[3] = { 0.0, 0.0, 0.0 };
+                    const int radius = 1;
+                    const int width = radius * 2 + 1;
+                    for (int i = radius * -1; i < width; i++) {
+                        for (int j = radius * -1; j < width; j++) {
+                            if (r + i > 0 && r + i < img.rows) {
+                                if (c + j > 0 && c + j < img.cols) {
+                                    cv::Vec3b pixel = img.ptr<cv::Vec3b>(r+i)[c+j];
+                                    count++;
+                                    for (std::size_t channel = 0; channel < pixel.rows; ++channel) {
+                                        means[channel] += pixel[channel];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // If mean is greater than threshold, set pixel to 0, else set to white.
+                    if (means[0] / count > blue && means[1] / count > green && means[2] / count > red) {
+                        img.at<cv::Vec3b>(cv::Point(c, r)) = { 0, 0, 0 };
+                    }
+                    else {
+                        img.at<cv::Vec3b>(cv::Point(c, r)) = { 255, 255, 255 };
+                    }
+            }
+        }
+}

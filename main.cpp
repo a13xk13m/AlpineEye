@@ -11,8 +11,9 @@ int main()
     cv::Mat img = ImageProc::openImage(image_path);
     ImageProc::crop(img, 4500, 2000, 2000, 2000);
     // Orange for topo lines are r: 166, g: 116, b: 66
-    ImageProc::boostColor(img, 66, 116, 166, 40);
-    ImageProc::inverse(img);
+    //ImageProc::boostColor(img, 66, 116, 166, 40);
+    //ImageProc::inverse(img);
+    ImageProc::adaptiveThresholding(img, 66, 116, 40, 3);
     imshow("Before", img);
     //ImageProc::denoise(img, 0.25, 2);
     int k = cv::waitKey(0);
