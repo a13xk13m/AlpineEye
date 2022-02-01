@@ -56,65 +56,49 @@ void ImageProc::inverse(cv::Mat& img) {
     img = inversedImg;
 }
 
-void ImageProc::denoise(cv::Mat& img, double threshold, std::size_t passes)  {
-    for (int p = 0; p < passes; ++p) {
-        for (int r = 0; r < img.rows; r++) {
-            uchar* ptr = img.ptr<uchar>(r);
-            for (int c = 0; c < img.cols; c++) {
-                // Check if pixel is black.
-                if (img.ptr(r)[c] == 0) {
-                    int count = 0;
-                    // Create frame around pixel if the the pixel is black.
-                    const int radius = 1;
-                    const int width = radius * 2 + 1;
-                    for (int i = radius * -1; i < width; i++) {
-                        for (int j = radius * -1; j < width; j++) {
-                            if (r + i > 0 && r + i < img.rows) {
-                                if (c + j > 0 && c + j < img.cols) {
-                                    uchar pixel = img.ptr<uchar>(r + i)[c + j];
-                                    if (pixel == 0) {
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (count < width * width * threshold) {
-                        img.ptr(r)[c] = 255;
-                    }
-                }
-            }
-        }
-    }
-}
+void ImageProc::denoise(cv::Mat& img, const int kernelSize)  {
+	cv::Mat tempImage;
 
-void ImageProc::adaptiveThresholding(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius) {
-        for (int r = 0; r < img.rows; r++) {
-            for (int c = 0; c < img.cols; c++) {
-                    int count = 0;
-                    double means[3] = { 0.0, 0.0, 0.0 };
-                    const int radius = 1;
-                    const int width = radius * 2 + 1;
-                    for (int i = radius * -1; i < width; i++) {
-                        for (int j = radius * -1; j < width; j++) {
-                            if (r + i > 0 && r + i < img.rows) {
-                                if (c + j > 0 && c + j < img.cols) {
-                                    cv::Vec3b pixel = img.ptr<cv::Vec3b>(r+i)[c+j];
-                                    count++;
-                                    for (std::size_t channel = 0; channel < pixel.rows; ++channel) {
-                                        means[channel] += pixel[channel];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // If mean is greater than threshold, set pixel to 0, else set to white.
-                    if (means[0] / count > blue && means[1] / count > green && means[2] / count > red) {
-                        img.at<cv::Vec3b>(cv::Point(c, r)) = { 0, 0, 0 };
-                    }
-                    else {
-                        img.at<cv::Vec3b>(cv::Point(c, r)) = { 255, 255, 255 };
-                    }
-            }
-        }
+	img.copyTo(tempImage);
+
+	int imageChannels = img.channels();
+
+	std::vector<vector> values(imageChannels);
+
+	int halfSize{ kernelSize / 2 };
+
+	int pos = { kernelSize * kernelSize / 2 };
+
+	for (int i{ halfSize }; i < tempImage.rows - halfSize; i++)
+	{
+		for (int j{ halfSize }; j < tempImage.cols - halfSize; j++)
+		{
+			for (int channel = 0; channel < imageChannels; channel++)
+			{
+				values[channel].clear();
+			}
+
+			for (int x = { -halfSize }; x <= halfSize; x++)
+			{
+				for (int y = { -halfSize }; y <= halfSize; y++)
+				{
+					for (int channel = 0; channel < imageChannels; channel++)
+					{
+						unsigned char* pixelValuePtr = tempImage.ptr(i + x) + ((j + y) * imageChannels) + channel;
+
+						values[channel].push_back(*pixelValuePtr);
+					}
+				}
+			}
+
+			for (int channel = 0; channel < imageChannels; channel++)
+			{
+				sort(begin(values[channel]), end(values[channel]));
+
+				unsigned char* pixelValuePtr = image.ptr(i) + (j * imageChannels) + channel;
+
+				*pixelValuePtr = values[channel][pos];
+			}
+		}
+	}
 }

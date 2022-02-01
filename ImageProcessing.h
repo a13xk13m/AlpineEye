@@ -6,6 +6,10 @@
 // to be turned into a model.
 // All image processing functions modify the image inplace.
 
+// The below article was used as reference for denoising and other algorithms.
+// https://efxa.org/2018/06/25/digital-image-processing-algorithms-implemented-with-c-and-opencv/
+
+
 namespace ImageProc {
 	// Takes an image path and opens it, return a pointer to the image for future processing.
 	// Input - Path
@@ -34,14 +38,9 @@ namespace ImageProc {
 	// - Image
 	void inverse(cv::Mat& img);
 	
-	// Denoises a binary image by removing free floating 1s that don't have neighbors.
-	// - Image, % of 255 neighbors before a pixels is set to 255, number of passes to denoise.
-	void denoise(cv::Mat& img, double threshold, std::size_t passes);
-
-	// Segments an image by adaptive thresholding as described in 
-	// https://ieeexplore.ieee.org/document/5692626
-	// - Image
-	void adaptiveThresholding(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius);
+	// Denoises a binary image.
+	// - Image, Kernel Size
+	void denoise(cv::Mat& img, const int kernelSize);
 
 	// Processes an image and returns the final, fully processed, version.
 	// - Image
