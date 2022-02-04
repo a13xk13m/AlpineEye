@@ -57,48 +57,31 @@ void ImageProc::inverse(cv::Mat& img) {
 }
 
 void ImageProc::denoise(cv::Mat& img, const int kernelSize)  {
-	cv::Mat tempImage;
+    int halfSize{ kernelSize / 2 };
+    int pos = { kernelSize * kernelSize / 2 };
+    for (int r = 0; r < img.rows; r++) {
+        // We obtain a pointer to the beginning of row r
+        uchar* ptr = img.ptr<uchar>(r);
 
-	img.copyTo(tempImage);
+        for (int c = 0; c < img.cols; c++) {
+            std::vector<uchar> frame(kernelSize * kernelSize);
+            // Iterate through the frame.
+            for (int x = { -halfSize }; x <= halfSize; x++)
+            {
+                for (int y = { -halfSize }; y <= halfSize; y++)
+                {
+                    unsigned char pixelValuePtr = img.ptr(r + x)[c + y];
+                    frame.push_back(pixelValuePtr);
+                }
+            }
+            // Calculate median.
+            std::sort(begin(frame), end(frame));
 
-	int imageChannels = img.channels();
+            unsigned char* pixelValuePtr = img.ptr(r) + c;
 
-	std::vector<vector> values(imageChannels);
+            img.at<uchar*>(r)[c] = frame[pos];
 
-	int halfSize{ kernelSize / 2 };
+        }
+    }
 
-	int pos = { kernelSize * kernelSize / 2 };
-
-	for (int i{ halfSize }; i < tempImage.rows - halfSize; i++)
-	{
-		for (int j{ halfSize }; j < tempImage.cols - halfSize; j++)
-		{
-			for (int channel = 0; channel < imageChannels; channel++)
-			{
-				values[channel].clear();
-			}
-
-			for (int x = { -halfSize }; x <= halfSize; x++)
-			{
-				for (int y = { -halfSize }; y <= halfSize; y++)
-				{
-					for (int channel = 0; channel < imageChannels; channel++)
-					{
-						unsigned char* pixelValuePtr = tempImage.ptr(i + x) + ((j + y) * imageChannels) + channel;
-
-						values[channel].push_back(*pixelValuePtr);
-					}
-				}
-			}
-
-			for (int channel = 0; channel < imageChannels; channel++)
-			{
-				sort(begin(values[channel]), end(values[channel]));
-
-				unsigned char* pixelValuePtr = image.ptr(i) + (j * imageChannels) + channel;
-
-				*pixelValuePtr = values[channel][pos];
-			}
-		}
-	}
 }
