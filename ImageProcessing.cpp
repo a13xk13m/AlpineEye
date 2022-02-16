@@ -59,28 +59,26 @@ void ImageProc::inverse(cv::Mat& img) {
 void ImageProc::denoise(cv::Mat& img, const int kernelSize)  {
     int halfSize{ kernelSize / 2 };
     int pos = { kernelSize * kernelSize / 2 };
+    uchar* p;
     for (int r = 0; r < img.rows; r++) {
-        // We obtain a pointer to the beginning of row r
-        uchar* ptr = img.ptr<uchar>(r);
-
         for (int c = 0; c < img.cols; c++) {
             std::vector<uchar> frame(kernelSize * kernelSize);
+
             // Iterate through the frame.
             for (int x = { -halfSize }; x <= halfSize; x++)
             {
                 for (int y = { -halfSize }; y <= halfSize; y++)
                 {
-                    unsigned char pixelValuePtr = img.ptr(r + x)[c + y];
-                    frame.push_back(pixelValuePtr);
+                    if (c + x > img.cols && c + x < 0 && r + x > img.rows && r + x < 0) {
+                        uchar pixelValue = img.ptr<uchar>(r + x)[c + y];
+                        std::cout << pixelValue + 1 << std::endl;
+                        frame.push_back(pixelValue);
+                    }
                 }
             }
             // Calculate median.
-            std::sort(begin(frame), end(frame));
-
-            unsigned char* pixelValuePtr = img.ptr(r) + c;
-
-            img.at<uchar*>(r)[c] = frame[pos];
-
+            //std::sort(begin(frame), end(frame));
+            img.ptr<uchar>(r)[c] = frame[frame.size() - 1];
         }
     }
 
