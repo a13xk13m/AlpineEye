@@ -14,7 +14,8 @@ int main()
     imshow("before", img);
     // Orange for topo lines are r: 166, g: 116, b: 66
     //ImageProc::boostColor(img, 66, 116, 166, 35);
-    cv::inRange(img, cv::Scalar(100), cv::Scalar(125), img);
+    ImageProc::applyContrast(img, 0.75);
+    // cv::inRange(img, cv::Scalar(100), cv::Scalar(125), img);
     //ImageProc::inverse(img);
     //ImageProc::denoise(img, 3);
     imshow("After", img);

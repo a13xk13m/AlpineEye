@@ -56,6 +56,15 @@ void ImageProc::inverse(cv::Mat& img) {
     img = inversedImg;
 }
 
+// Potentially look at localized contrasting.
+void ImageProc::applyContrast(cv::Mat& img, double factor) {
+    for (int y = 0; y < img.rows; y++) {
+        for (int x = 0; x < img.cols; x++) {
+            img.at<uchar>(y, x) = cv::saturate_cast<uchar>(factor * img.at<uchar>(y, x));
+        }
+    }
+}
+
 void ImageProc::denoise(cv::Mat& img, const int kernelSize)  {
     int halfSize{ kernelSize / 2 };
     int pos = { kernelSize * kernelSize / 2 };

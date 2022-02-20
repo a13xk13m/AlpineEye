@@ -37,6 +37,10 @@ namespace ImageProc {
 	// Inveres an image with cv::bitwise_not
 	// - Image
 	void inverse(cv::Mat& img);
+
+	// Applies a factor to contrast of a grayscale image.
+	// - Image, factor
+	void applyContrast(cv::Mat& img, double factor);
 	
 	// Denoises a binary image.
 	// - Image, Kernel Size
