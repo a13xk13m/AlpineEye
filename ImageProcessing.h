@@ -24,6 +24,11 @@ namespace ImageProc {
 	// - Image, blue, green, red, radius of filter band
 	void boostColor(cv::Mat& img, std::size_t blue, std::size_t green, std::size_t red, std::size_t radius);
 
+	// Connects lines in an image using closest Euclidian distance.
+    // Input - Image
+    // Output - Image
+	void eucConnect(cv::Mat& img);
+
 	// Processes an image and returns the final, fully processed, version.
 	// - Image
 	cv::Mat process(cv::Mat& img);
