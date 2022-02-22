@@ -9,15 +9,9 @@ int main()
 {
     std::string image_path = cv::samples::findFile("Mt_Washington1.png");
     cv::Mat img = ImageProc::openImage(image_path);
-    cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
     ImageProc::crop(img, 4500, 3000, 1000, 500);
-    imshow("before", img);
     // Orange for topo lines are r: 166, g: 116, b: 66
-    //ImageProc::boostColor(img, 66, 116, 166, 35);
-    ImageProc::applyContrast(img, 0.75);
-    // cv::inRange(img, cv::Scalar(100), cv::Scalar(125), img);
-    //ImageProc::inverse(img);
-    //ImageProc::denoise(img, 3);
+    ImageProc::boostColor(img, 66, 116, 166, 0);
     imshow("After", img);
     int k = cv::waitKey(0);
     return 0;
