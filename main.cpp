@@ -12,6 +12,7 @@ int main()
     ImageProc::crop(img, 4500, 3000, 1000, 500);
     // Orange for topo lines are r: 166, g: 116, b: 66
     ImageProc::boostColor(img, 66, 116, 166, 0);
+    cv::erode(img, img, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(2, 2)));
     ImageProc::eucConnect(img);
     imwrite("output.png", img);
     imshow("After", img);

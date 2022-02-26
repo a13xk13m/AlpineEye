@@ -4,6 +4,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
+#include <cmath>
 
 cv::Mat ImageProc::openImage(std::string path)
 {
@@ -23,15 +24,16 @@ void ImageProc::boostColor(cv::Mat& img, std::size_t blue, std::size_t green, st
 }
 
 void ImageProc::eucConnect(cv::Mat& img) {
-    int distance = 1;
     int coords[2] = { 0, 0 };
+    std::vector<std::vector<int>> endpoints;
     for (int r = 0; r < img.rows; r++) {
         for (int c = 0; c < img.cols; c++) {
-            std::vector<uchar> frame(distance * 2 + 1);
+            std::vector<int> tempCoords = { 0, 0 };
             // Check if pixel is connected on at least two sides to another 
             // white pixel.
             int neighbors = 0;
             int visited = 0;
+
             uchar currPixel = img.ptr<uchar>(r)[c];
             if (currPixel == 255) {
                 for (int x = { -1 }; x <= 1; x++)
@@ -47,12 +49,14 @@ void ImageProc::eucConnect(cv::Mat& img) {
                         }
                     }
                 }
-                // Start Euclidian connecting if all neighbors are scanned and there are less than
-                // two neighbors.
+                // Add coordinates of endpoint to vector.
                 if (neighbors < 2 && visited == 9) {
-                    img.ptr<uchar>(r)[c] = 125;
+                    tempCoords[0] = r;
+                    tempCoords[1] = c;
+                    endpoints.emplace_back(tempCoords);
                 }
             }
         }
     }
+    std::cout << endpoints.size() << std::endl;
 }
